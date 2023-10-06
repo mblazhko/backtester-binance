@@ -22,8 +22,8 @@ class Indicator:
 
         ep = 2 * self.length - 1
 
-        auc = talib.EMA((src - src.shift(1)).clip(lower=0), timeperiod=ep)
-        adc = talib.EMA((src.shift(1) - src).clip(lower=0), timeperiod=ep)
+        auc = talib.EMA((src - src.shift(1)), timeperiod=ep)
+        adc = talib.EMA((src.shift(1) - src), timeperiod=ep)
 
         self.df["CCI"] = talib.CCI(
             self.df["high"], self.df["low"], self.df["close"], timeperiod=30
