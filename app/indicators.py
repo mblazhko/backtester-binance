@@ -1,4 +1,3 @@
-import pandas as pd
 import talib
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -6,11 +5,7 @@ from pandas import DataFrame
 
 class Indicator:
     def __init__(
-        self,
-        ob_level: int,
-        os_level: int,
-        length: int,
-        df: DataFrame
+        self, ob_level: int, os_level: int, length: int, df: DataFrame
     ) -> None:
         self.ob_level = ob_level
         self.os_level = os_level
@@ -48,8 +43,12 @@ class Indicator:
         return self.df
 
     def build_plot(self, indicators_df: DataFrame) -> None:
-        plt.plot(indicators_df["ub"], label="Resistance", color="red", linewidth=2)
-        plt.plot(indicators_df["lb"], label="Support", color="green", linewidth=2)
+        plt.plot(
+            indicators_df["ub"], label="Resistance", color="red", linewidth=2
+        )
+        plt.plot(
+            indicators_df["lb"], label="Support", color="green", linewidth=2
+        )
         plt.plot(
             (indicators_df["ub"] + indicators_df["lb"]) / 2,
             label="RSI Midline",
@@ -60,13 +59,3 @@ class Indicator:
         plt.legend()
 
         plt.show()
-
-
-if __name__ == "__main__":
-    ob_level = 70
-    os_level = 30
-    length = 14
-    df = pd.read_csv("binance_data.csv")
-    indicator = Indicator(ob_level, os_level, length, df)
-    indicators_df = indicator.get_indicator()
-    indicator.build_plot(indicators_df)

@@ -1,4 +1,4 @@
-from strategies import Strategy
+from app.strategies import Strategy
 
 
 class Backtester:
@@ -8,7 +8,7 @@ class Backtester:
     def run_backtest(self, initial_balance: int):
         signals = self.strategy.get_signals()
 
-        # Початковий баланс у доларах
+        # Start balance in usd
         balance = initial_balance
         position = None
 
@@ -17,7 +17,7 @@ class Backtester:
         for i, signal in enumerate(signals):
             if signal["action"]:
                 if position is not None:
-                    # Закрити попередню позицію перед відкриттям нової
+                    # close previous position before open new one
                     trade_result = self.close_position(
                         position, self.strategy.df["close"][i]
                     )
@@ -30,10 +30,13 @@ class Backtester:
                     "SL": signal["SL"],
                 }
             elif position is not None:
-                # Перевірити умови для закриття поточної позиції
+                # check conditions before close position
                 if (
                     self.strategy.df["close"][i] >= position["TP"]
                     or self.strategy.df["close"][i] <= position["SL"]
+                    or self.strategy.df["close"][i]
+                    == position["TP"]
+                    == position["SL"]
                 ):
                     trade_result = self.close_position(
                         position, self.strategy.df["close"][i]
@@ -42,7 +45,7 @@ class Backtester:
                     trades.append(trade_result)
                     position = None
 
-        # Закрити будь-яку відкриту позицію в кінці тестування
+        # close any existing position before testing
         if position is not None:
             trade_result = self.close_position(
                 position, self.strategy.df["close"].iloc[-1]
@@ -59,4 +62,8 @@ class Backtester:
         elif close_price <= position["SL"]:
             pnl = (position["SL"] / position["entry_price"] - 1) * 100
 
-        return {"entry_price": position["entry_price"], "exit_price": close_price, "pnl": pnl}
+        return {
+            "entry_price": position["entry_price"],
+            "exit_price": close_price,
+            "pnl": pnl,
+        }

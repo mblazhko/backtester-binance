@@ -1,13 +1,14 @@
-from indicators import Indicator
+from app.indicators import Indicator
 import pandas as pd
 
+
 class Strategy:
-    def __init__(self, ob_level, os_level, length):
+    def __init__(self, ob_level, os_level, length, df):
         self.ob_level = ob_level
         self.os_level = os_level
         self.length = length
         self.indicator = Indicator(
-            ob_level, os_level, length, df=pd.read_csv("binance_data.csv")
+            ob_level, os_level, length, df
         )
         self.df = self.indicator.get_indicator()
 
@@ -41,9 +42,3 @@ class Strategy:
             signals.append(signal)
 
         return signals
-
-
-if __name__ == '__main__':
-    strategy = Strategy(70, 30, 14)
-    signals = strategy.get_signals()
-    print(signals)
