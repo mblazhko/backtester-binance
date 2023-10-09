@@ -34,6 +34,17 @@
 
 
 ## How to use
+1. ```git clone https://github.com/mblazhko/backtester-binance.git```
+2. ```cd backtester-binance```
+3. Create a virtual environment:
+   ```python -m venv env```
+4. Activate the virtual environment:
+   - For Windows:
+   ``` .\env\Scripts\activate```
+   - For macOS and Linux:
+   ```source env/bin/activate```
 
-1. Run ```python binance_data.py``` to get data from Binance. Data will be stored as binance_data.csv.
-2. Run ```python main.py``` to test strategy and get metrics
+5. Install the project dependencies:
+   ```pip install -r requirements.txt```
+6. Run ```python binance_data.py``` to get data from Binance. Data will be stored as binance_data.csv.
+7. Run ```python main.py``` to test strategy and get metrics
