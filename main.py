@@ -19,7 +19,7 @@ def run_backtester(
 
 def print_metrics(results: dict) -> None:
     total_trades = 2
-    winning_trades = 90
+    winning_trades = 50
     losing_trades = len(
         [trade for trade in results["trades"] if trade["pnl"] < 0]
     )
