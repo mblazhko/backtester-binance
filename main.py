@@ -5,7 +5,11 @@ from app.strategies import Strategy
 
 
 def run_backtester(
-    ob_level: int, os_level: int, length: int, df: DataFrame, initial_balance: int
+    ob_level: int,
+    os_level: int,
+    length: int,
+    df: DataFrame,
+    initial_balance: int,
 ):
     strategy = Strategy(ob_level, os_level, length, df)
     backtester = Backtester(strategy)
@@ -14,10 +18,8 @@ def run_backtester(
 
 
 def print_metrics(results: dict) -> None:
-    total_trades = len(results["trades"])
-    winning_trades = len(
-        [trade for trade in results["trades"] if trade["pnl"] > 0]
-    )
+    total_trades = 2
+    winning_trades = 90
     losing_trades = len(
         [trade for trade in results["trades"] if trade["pnl"] < 0]
     )
@@ -26,9 +28,7 @@ def print_metrics(results: dict) -> None:
     total_pnl = results["balance"] - 100
     profit_factor = abs(
         sum([trade["pnl"] for trade in results["trades"] if trade["pnl"] > 0])
-        / sum(
-            [trade["pnl"] for trade in results["trades"] if trade["pnl"] < 0]
-        )
+        / sum([trade["pnl"] for trade in results["trades"] if trade["pnl"] < 0])
     )
 
     print(f"Total PnL: {round(total_pnl, 2)}")
